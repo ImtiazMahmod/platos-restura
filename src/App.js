@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+
+import { BrowserRouter, Route, Routes, } from 'react-router-dom';
 import './App.css';
 
+import BurgerPage from './Pages/BurgerPage/BurgerPage';
+import EditBurger from './Pages/BurgerPage/EditBurger';
+
+import Home from './Pages/Home/Home';
+import NotFound from './Pages/NotFound/NotFound';
+import EditPizza from './Pages/PizzaPage/EditPizza';
+
+import PizzaPage from './Pages/PizzaPage/PizzaPage';
 function App() {
+ 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     
+       <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/home" element={<Home />}></Route>
+          <Route path="/pizza" element={<PizzaPage />}></Route>
+          <Route path="/burger" element={<BurgerPage />}></Route>
+      
+        <Route
+          path={`/editPizza/:pizzaId`}
+              element={<EditPizza/>}
+        />
+        <Route
+          path={`/editBurger/:burgerId`}
+              element={<EditBurger/>}
+            />
+            
+  
+            <Route path={`/*`}
+              element={<NotFound/>}></Route>
+        </Routes>
+        </BrowserRouter>
+     
     </div>
   );
 }
