@@ -34,10 +34,10 @@ const HomePizza = ({setOpen}) => {
           <Box sx={{ minHeight: "100vh", my: 12 }}>
         
             <Box sx={{ my: 5 }}>
-              <Typography color="tomato">Fresh Pizza From Platos</Typography>
+            <Typography color="tomato">   OUR SPECIAL MENU</Typography>
               <Typography fontWeight="bold" variant="h4">
                 {" "}
-                OUR SPECIAL MENU
+                Fresh Pizza From Platos
               </Typography>
             </Box>
             <Container>

@@ -71,7 +71,7 @@ const SinglePizza = ({pizza }) => {
             fontWeight="bold"
             component="div"
           >
-            BDT {pizza?.price}
+            $ {pizza?.price}
           </Typography>
           <StyledRating
             sx={{ ms: "auto" }}
@@ -86,9 +86,9 @@ const SinglePizza = ({pizza }) => {
         <Typography sx={{ pt: 2 }} variant="body2" color="text.secondary">
           {pizza?.desc?.slice(0, 100)}...
         </Typography>
-      </CardContent>
+      </CardContent>   
 
-      <CardActions sx={{ my: 1 }}>
+      <CardActions sx={{ my: 1 ,justifyContent:"space-between"}}>
        
           {" "}
           <Link className={"root"} to={`/purchase/${pizza?.id}`}>

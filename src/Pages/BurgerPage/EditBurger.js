@@ -1,24 +1,26 @@
-import { Container, Divider, TextField, Typography } from "@mui/material";
+import { Container,  TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import Swal from "sweetalert2";
+
 import Footer from "../../Components/Footer/Footer";
 import Navigation from "../../Components/Navigation/Navigation";
-import Spinner from "../../Components/Spinner";
 import MuiButton from "../../Components/Styled/MuiButton";
+import { updateBurger } from "../../Redux/burgerSlice/burgerSlice";
 
 
 const EditBurger = () => {
 
     const { burgerId } = useParams()
     const [burger, setBurger] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+   
     console.log("burgerId",burgerId)
-    const { register, handleSubmit, reset } = useForm();
-    console.log(burger)
+    const { register, handleSubmit, } = useForm();
+  console.log(burger)
+  
      //load a burger
   useEffect(() => {
     axios
@@ -26,32 +28,18 @@ const EditBurger = () => {
       .then((res) => {
         // console.log(res.data)
         setBurger(res.data);
-        setIsLoading(false);
-      }).catch(err=>{console.log(err)});
-    if (!burger) {
-      return <Spinner />;
-    }
+        }).catch(err=>{console.log(err)});
+    
   }, [burgerId]);
     
+  const dispatch = useDispatch()
+  
     const onSubmit = (data) => {
 
-          ///update data to server
-    axios
-      .put(`http://localhost:5000/updateBurger/${burgerId}`, data)
-        .then((res) => {
-          console.log(res.status)
-        //burger added
-        if (res.status===200) {
-          Swal.fire({
-            title: "Burger Updated",
-            text: "Burger updated to your store.",
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "OK",
-          });
-          reset();
-        }
-      });
+      dispatch(updateBurger(burgerId, data)).then(res => {
+        console.log(res);
+      })
+     console.log("object");
   };
 
   return (

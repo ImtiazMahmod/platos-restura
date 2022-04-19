@@ -2,32 +2,37 @@ import { Container,  Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Footer from "../../Components/Footer/Footer";
 import Navigation from "../../Components/Navigation/Navigation";
 import Spinner from "../../Components/Spinner";
+import { fetchBurgers } from "../../Redux/burgerSlice/burgerSlice";
 import AddBurger from "./AddBurger";
 import SingleBurger from "./SingleBurger";
 
 const BurgerPage = () => {
-  const [burgers, setBurgers] = useState([]);
+ 
   const [isLoading, setIsLoading] = useState(true);
   
+// redux api call
+  
+  const dispatch = useDispatch()
+  const burgers = useSelector((state) =>
+   state.platosBurger.burgers
+  
+)
 
-    //load all burger
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/getBurger/")
-      .then((res) => {
-        console.log(res.data)
-        setBurgers(res.data);
-        setIsLoading(false);
-      }).catch(err=>{console.log(err)});
-    if (!burgers) {
-      return <Spinner />;
-    }
-  }, []);
-
+    ///load all burgers
+    useEffect(() => {
+      dispatch(fetchBurgers()).then((burgers) => {
+        if (burgers) {
+          setIsLoading(false);
+               } else {
+          setIsLoading(true);
+        }
+      });
+    }, [burgers]);
   return (
     <Box>
       {isLoading ? (
@@ -40,10 +45,10 @@ const BurgerPage = () => {
           <Box sx={{ minHeight: "100vh", my: 12 }}>
         
             <Box sx={{ my: 5 }}>
-              <Typography color="tomato">Fresh Burger From Platos</Typography>
+              <Typography color="tomato">   OUR SPECIAL MENU</Typography>
               <Typography fontWeight="bold" variant="h4">
                 {" "}
-                OUR SPECIAL MENU
+                Fresh Burger From Platos
               </Typography>
             </Box>
             <Container>
@@ -59,7 +64,7 @@ const BurgerPage = () => {
         
           <Footer />
         </Box>
-      )}
+      )} 
     </Box>
   );
 };

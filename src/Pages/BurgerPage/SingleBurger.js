@@ -16,8 +16,10 @@ import {
 import { Box, styled } from "@mui/system";
 
 import { Link } from "react-router-dom";
-import axios from "axios";
+
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { deleteBurger } from "../../Redux/burgerSlice/burgerSlice";
 
 
 
@@ -28,8 +30,8 @@ const StyledRating = styled(Rating)({
 });
 
 const SingleBurger = ({burger }) => {
-    
-    const handleDelete = (id) => {
+    const dispatch = useDispatch()
+    const handleDelete = () => {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -40,15 +42,12 @@ const SingleBurger = ({burger }) => {
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.isConfirmed) {
-            axios
-              .delete(
-                `http://localhost:5000/deleteBurger/${burger.id}`
-              )
-              .then((res) => {
-                if (res.status === 200) {
-                  Swal.fire("Deleted!", "Your Burger has been deleted.", "success");
-                }
-              });
+            
+            dispatch(deleteBurger(burger.id)).then((res) => {
+                   if (res.status === 200) {
+                    Swal.fire("Deleted!", "Your Burger has been deleted.", "success");
+                   }
+                 });
           }
         });
       };
@@ -71,7 +70,7 @@ const SingleBurger = ({burger }) => {
             fontWeight="bold"
             component="div"
           >
-            BDT {burger?.price}
+            $ {burger?.price}
           </Typography>
           <StyledRating
             sx={{ ms: "auto" }}
@@ -97,7 +96,7 @@ const SingleBurger = ({burger }) => {
               size="small"
               color="error"
               sx={{ color: "tomato" }}
-            >
+            > 
               Buy Now
             </Button>
                   </Link>
